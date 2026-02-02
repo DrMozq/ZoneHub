@@ -1,0 +1,3 @@
+[submodule "esp32_firmware"]
+	path = esp32_firmware
+	url = git@github.com:DrMozq/esp32_ble_gateway.git
