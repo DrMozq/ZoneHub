@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZoneHub - Система мониторинга</title>
+    <!-- Подключаем Bootstrap для красоты -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Автообновление страницы каждые 5 секунд -->
+    <meta http-equiv="refresh" content="5">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card { margin-top: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .status-online { color: #28a745; font-weight: bold; }
+        .status-offline { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">ZoneHub: Мониторинг объектов</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>MAC-адрес</th>
+                        <th>Текущая зона</th>
+                        <th>Мощность (RSSI)</th>
+                        <th>Последняя активность</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tag in tags %}
+                    <tr>
+                        <td><code>{{ tag.mac }}</code></td>
+                        <td><span class="badge bg-info text-dark">{{ tag.last_zone }}</span></td>
+                        <td>{{ tag.rssi }} dBm</td>
+                        <td>{{ tag.last_seen }}</td>
+                        <td>
+                            {% set seconds_ago = (now - tag.dt_object).total_seconds() %}
+                            {% if seconds_ago < 45 %}
+                                <span class="status-online">● Online</span>
+                            {% else %}
+                                <span class="status-offline">● Offline</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-muted text-center">
+            Последнее обновление данных: {{ now.strftime('%H:%M:%S') }}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
