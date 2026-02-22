@@ -22,6 +22,20 @@ class Settings:
     DB_PATH = DATA_DIR / "zonehub.db"
     LOG_PATH = DATA_DIR / "app_{time:YYYY-MM-DD}.log"
 
+    # Координаты шлюзов (X, Y) в метрах
+    GATEWAY_COORDS = {
+        "esp32_x0y0": (0.0, 0.0),  # Шлюз 1 в углу
+        "esp32_x3y0": (3.0, 0.0),  # Шлюз 2 через 3 метра по X
+        "esp32_x0y3": (0.0, 3.0),  # Шлюз 3 через 3 метра по Y
+    }
+    # Индивидуальная калибровка (RSSI на 1 метре)
+    GATEWAY_CALIBRATION = {
+        "esp32_x0y0": -57.0,
+        "esp32_x3y0": -67.0,
+        "esp32_x0y3": -67.0
+    }
+    N_ENVIRONMENT = 5.2  # Коэффициент затухания (2.0 - открытое пространство)
+
 # Создаем папку для данных, если её нет
 Settings.DATA_DIR.mkdir(exist_ok=True)
 
